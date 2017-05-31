@@ -1,0 +1,46 @@
+.background {
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    font-size: 0.5em !important;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    padding: 5px !important;
+}
+
+.logo-footer {
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    font-size: 0.5em !important;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+.logo-footer img {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+
+.reveal section img {
+    border: none;
+}
+
+.reveal pre code {
+    color: #333;
+    background: #f8f8f8;
+}
+
+.reveal code {
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
