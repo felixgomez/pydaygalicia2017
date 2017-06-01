@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica inicial:<br /><span style="color:red;">LED</span></h1>
+        </section>
+
+        <section class="background">
+            <h1>Circuito con LED</h1>
+            <img class="esquema" src="resources/P00/00-LED-BÁSICO_bb.png" />
+        </section>
+
+        <section class="background">
+            <h1>Breadboard / Protoboard</h1>
+            <img class="esquema" src="resources/P00/01-PROTOBOARD.png" />
+        </section>
+
+        <section class="background">
+            <h1>Circuito en la protoboard</h1>
+            <img class="esquema" src="resources/P00/02-LED-PROTOBOARD_bb.png" />
+        </section>
+
+        <section class="background">
+            <h1>Alimentando con la RPi</h1>
+            <img class="esquema" src="resources/P00/03-LED-PROTOBOARD-RPi_bb.png" />
+        </section>
+
+        <section class="background">
+            <h1>Añadimos un interruptor</h1>
+            <img class="esquema" src="resources/P00/04-LED-PROTOBOARD-RPi-SWITHC_bb.png" />
+        </section>
+
+        <section class="background" id="d5">
+            <section>
+                <h1>Controlamos el LED con Python</h1>
+                <img class="esquema" src="resources/P00/05-LED-PROTOBOARD-RPi-PYTHON_bb.png" />
+                <p class="etiquetasi">usando la entrada/salida GPIO número 17 de 3.3 V de la RaspberryPi</p>
+            </section>
+
+            <section>
+                <h1>código python</h1>
+                <pre><code class="python">
+from gpiozero import LED
+
+miled = LED(17) # crear un LED
+miled.on()      # encenderlo
+                </code></pre>
+            </section>
+        </section>
+
+        <section class="background">
+            <section>
+                <h1>Leemos el pulsador desde Python</h1>
+                <img class="esquema" src="resources/P00/06-LED-PROTOBOARD-RPi-PYTHON-SWITCH_bb.png" />
+                <p class="etiquetasi">usando la entrada/salida GPIO-02 de la RaspberryPi, y encendemos el LED</p>
+            </section>
+            <section>
+                <h1>código python</h1>
+                <pre><code class="python">
+from gpiozero import LED
+
+# TODO
+                </code></pre>
+            </section>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
