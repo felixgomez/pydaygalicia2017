@@ -86,11 +86,28 @@ miled.on()      # encenderlo
             <section>
                 <h1>código python</h1>
                 <pre><code class="python">
-from gpiozero import LED
+from gpiozero import LED, Button
 
-# TODO
+miled = LED(17)      # crear un LED
+miboton = Button(2)  # crear un pulsador
+
+while True:
+    if miboton.is_pressed:
+        miled.on()
+    else:
+        miled.off()
                 </code></pre>
             </section>
+        </section>
+
+        <section class="background">
+            <h1>¿Qué hemos aprendido?</h1>
+            <ul>
+                <li>Electricidad básica</li>
+                <li>Prototipado</li>
+                <li>GPIO de la Raspberry-Pi</li>
+                <li>Python - gpiozero</li>
+            </ul>
         </section>
 
     </div>
