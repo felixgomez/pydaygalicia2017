@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica 02:<br/><span style="color:red;">SENSOR DE MOVIMIENTO PASIVO POR INFRAROJOS (PIR)</span></h1>
+        </section>
+
+        <section>
+            <h1>Componentes</h1>
+            <ul>
+                <li>PIR (Sensor de movimiento pasivo por infrarrojos)</li>
+                <li>LED (Diodo emisor de luz)</li>
+                <li>Resistencia 220&Omega;</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>PIR</h1>
+            <h2>Detecta <b>cambios</b> en la cantidad de rediación infrarroja que recibe.</h2>
+            <h2>Cuando el cambio supera un umbral dispara un pulso.</h2>
+            <img class="esquema" src="resources/P02/pir.png"/>
+        </section>
+
+        <section>
+            <h1>PIR (vista inferior)</h1>
+            <img src="resources/P02/pir-down.png"/>
+        </section>
+
+        <section>
+            <section>
+                <h1>Esquema</h1>
+                <img src="resources/P02/pir-breadboard.png" class="esquema">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import MotionSensor
+
+pir = MotionSensor(24)
+
+while True:
+    pir.wait_for_motion()
+    print("You moved")
+    pir.wait_for_no_motion()
+	</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h1>Esquema con LED</h1>
+                <img src="resources/P02/pir-breadboard-led.png">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import MotionSensor, LED
+
+pir = MotionSensor(24)
+led = LED(20)
+
+while True:
+    pir.wait_for_motion()
+    led.on()
+    pir.wait_for_no_motion()
+    led.off()
+	</code></pre>
+            </section>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
