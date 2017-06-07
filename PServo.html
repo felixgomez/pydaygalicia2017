@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="css/override.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/railscasts.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+<body>
+
+<div class="logo-footer">
+	<img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+	<div class="slides">
+		<section class="background">
+			<h1>Práctica con <span style="color:blue;">Servo</span></h1>
+		</section>
+
+		<section class="background">
+			<section>
+				<h1>Circuito con Servo</h1>
+				<img class="esquema" src="resources/PServo/00-Servo-RPi_bb.png" />
+			</section>
+			<section>
+				<h1>código python</h1>
+				<pre><code class="python">
+#!/usr/bin/env python3
+
+from gpiozero import Servo
+from time import sleep
+
+miservo = Servo(17)
+
+while True:
+	miservo.min() # ó miservo.value = -1
+	sleep(1)
+	miservo.max() # ó miservo.value = +1
+	sleep(1)
+				</code></pre>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h1>Cómo se posiciona un Servo</h1>
+				<img class="esquema" src="resources/PServo/01-Servo-PWM-normal.png" />
+			</section>
+			<section>
+				<h1>El Servo G90: 500-2400 µs</h1>
+				<img class="esquema" src="resources/PServo/01-Servo-PWM-G90.png" /><br />
+				<a href="https://servodatabase.com/servo/towerpro/sg90" target="_blank">&rArr; Especificaciones G90</a>
+			</section>
+			<section>
+				<h1>código python</h1>
+				<pre><code class="python">
+#!/usr/bin/env python3
+
+from gpiozero import Servo
+from time import sleep
+
+miservo = Servo(17,
+	min_pulse_width =   500/1000000, # =   500 µs =  0.5 ms
+	max_pulse_width =  2400/1000000, # =  2400 µs =  2.4 ms
+	frame_width     = 20000/1000000  # = 20000 µs = 20.0 ms
+)
+
+while True:
+	miservo.value = -1 # ó miservo.min()
+	sleep(1)
+	miservo.value = +1 # ó miservo.max()
+	sleep(1)
+				</code></pre>
+			</section>
+		</section>
+
+
+		<section class="background">
+			<h1>¿Qué hemos aprendido?</h1>
+			<ul>
+				<li>Electricidad básica</li>
+				<li>Prototipado</li>
+				<li>GPIO de la Raspberry-Pi</li>
+				<li>Python - gpiozero</li>
+			</ul>
+		</section>
+
+	</div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+	// More info about config & dependencies:
+	// - https://github.com/hakimel/reveal.js#configuration
+	// - https://github.com/hakimel/reveal.js#dependencies
+	Reveal.initialize({
+		progress: true,
+		dependencies: [
+			{src: 'plugin/markdown/marked.js'},
+			{src: 'plugin/markdown/markdown.js'},
+			{src: 'plugin/notes/notes.js', async: true},
+			{
+				src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+				hljs.initHighlightingOnLoad();
+			}
+			}
+		]
+	});
+</script>
+</body>
+</html>

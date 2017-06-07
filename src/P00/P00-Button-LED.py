@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from gpiozero import LED, Button
 
 miled = LED(17)      # crear un LED

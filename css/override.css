@@ -38,6 +38,7 @@
 
 .reveal section img.esquema {
     max-width: 650px;
+    max-height: 400px;
     margin: 40px 0;
 }
 
@@ -66,6 +67,8 @@
 
 .reveal pre code {
     padding: 0 30px;
+    font-size: 15px;
+    line-height: 17px;
 }
 
 .etiquetasi {
