@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica 01:<br/><span style="color:red;">FOTORESISTOR</span></h1>
+        </section>
+
+        <section>
+            <h1>Componentes</h1>
+            <ul>
+                <li>Fotoresistor</li>
+                <li>Condensador de 1&mu;F</li>
+                <li>Zumbador activo (Una sola frecuencia)</li>
+                <li><i>Opcional: MCP3008</i></li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Fotoresistor</h1>
+            <h2>Es un tipo especial de resistencia</h2>
+            <img class="esquema" style="max-height: 300px;" src="resources/P01/ldr.png"/>
+            <p>Cuando incide la luz la resistencia es <b>BAJA</b> y cuando hay oscuridad la resistencia es muy
+                <b>ALTA</b></p>
+        </section>
+
+        <section>
+            <h1>Condensador (1&mu;F)</h1>
+            <h2>Los condensadores son componentes eléctricos que almacenan carga</h2>
+            <img class="esquema" style="max-height: 300px;" src="resources/P01/capacitor.png"/>
+        </section>
+
+        <section>
+            <section>
+                <img src="resources/P01/breadboard.png" class="esquema">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import LightSensor
+
+ldr = LightSensor(4)
+
+while True:
+    print(ldr.value)
+	</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h1>Buzzer (activo)</h1>
+            <h2>Cuando se aplica un voltaje vibra con una frecuencia determinada</h2>
+            <img src="resources/P01/buzzer-alone.png">
+        </section>
+
+        <section>
+            <section>
+                <img src="resources/P01/breadboard-buzzer.png" class="esquema">
+            </section>
+            <section>
+                <h1>Código Python para probar el buzzer activo</h1>
+                <pre><code>
+from gpiozero import Buzzer
+from time import sleep
+
+buzzer = Buzzer(20)
+
+while True:
+    buzzer.on()
+    sleep(1)
+    buzzer.off()
+    sleep(1)
+    # También existe buzzer.beep()
+	</code></pre>
+            </section>
+
+            <section>
+                <h1>Código Python para todo el circuito</h1>
+                <pre><code>
+from gpiozero import LightSensor, Buzzer
+from time import sleep
+
+ldr = LightSensor(4)
+buzzer = Buzzer(20)
+
+while True:
+    sleep(0.1)
+    if ldr.value < 0.5:  # Medir límites y ajustar valor
+        buzzer.on()
+    else:
+        buzzer.off()
+	</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h1>Opcional</h1>
+            <p>Los pins GPIO de la Raspberry Pi son digitales. Entrada o salida a <b>0</b> (LOW) ó <b>1</b> (HIGH).</p>
+            <p>Mediante un chip ADC (conversor analógico digital) se pueden leer valores analógicos (temperatura, humedad, potenciómetros)</p>
+            <img class="esquema" src="resources/P01/mcp3008.png">
+            <a href="https://www.raspberrypi.org/learning/physical-computing-with-python/analogue/" target="_blank">https://www.raspberrypi.org/learning/physical-computing-with-python/analogue/</a>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>

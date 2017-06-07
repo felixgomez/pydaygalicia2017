@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica 03:<br/><span style="color:red;">SENSOR DE DISTANCIA (ULTRASONIDOS)</span></h1>
+        </section>
+
+        <section>
+            <h1>Componentes</h1>
+            <ul>
+                <li>Sensor de distancia ultrasónico (HC-SR04)</li>
+                <li>Resistencia 330&Omega;</li>
+                <li>Resistencia 470&Omega;</li>
+                <li>LED (Diodo emisor de luz)</li>
+                <li>Resistencia 220&Omega;</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Sensor de distancia ultrasónico</h1>
+            <h2>Detecta el eco de ultrasonidos al rebotar en objetos cercanos</h2>
+            <h2>Utiliza la velocidad del sonido (343 m/s) para calcular la distancia al objeto</h2>
+            <img class="esquema" src="resources/P03/hc-sr04.jpg"/>
+        </section>
+
+        <section>
+            <section>
+                <img src="resources/P03/breadboard-ultrasonidos.png" class="esquema">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <h2>Medida de distancia</h2>
+                <pre><code>
+from gpiozero import DistanceSensor
+
+ultrasonic = DistanceSensor(echo=17, trigger=4)
+
+while True:
+    print(ultrasonic.distance)
+	</code></pre>
+            </section>
+
+            <section>
+                <h1>Código Python</h1>
+                <h2>Detección de umbral (0.3m por defecto)</h2>
+                <pre><code>
+from gpiozero import DistanceSensor
+
+ultrasonic = DistanceSensor(echo=17, trigger=4)
+
+while True:
+    ultrasonic.wait_for_in_range()
+    print("In range")
+    ultrasonic.wait_for_out_of_range()
+    print("Out of range")
+	</code></pre>
+            </section>
+
+            <section>
+                <h1>Modificación de la distancia umbral por defecto (0.3m)</h1>
+                <a href="http://gpiozero.readthedocs.io/en/stable/api_input.html#distance-sensor-hc-sr04"
+                   target="_blank">gpiozero / distance-sensor-hc-sr04</a>
+                <p>Opción 1 (constructor)</p>
+                <pre><code>
+ultrasonic = DistanceSensor(echo=17, trigger=4, threshold_distance=0.5)
+	</code></pre>
+                <p>Opción 2 (método)</p>
+                <pre><code>
+ultrasonic.threshold_distance = 0.5
+	</code></pre>
+            </section>
+            <section>
+                <h1>Cambiando la distancia máxima por defecto (1 m)</h1>
+                <p>Opción 1 (constructor)</p>
+                <pre><code>
+ultrasonic = DistanceSensor(echo=17, trigger=4, max_distance=2)
+	</code></pre>
+                <p>Opción 2 (método)</p>
+                <pre><code>
+ultrasonic.max_distance = 2
+	</code></pre>
+            </section>
+
+        </section>
+
+        <section>
+            <section>
+                <h1>Esquema con LED</h1>
+                <img class="esquema" src="resources/P03/breadboard-ultrasonidos-led.png">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import DistanceSensor, LED
+
+ultrasonic = DistanceSensor(echo=17, trigger=4)
+led = LED(20)
+
+while True:
+    ultrasonic.wait_for_in_range()
+    led.on()
+    ultrasonic.wait_for_out_of_range()
+    led.off()
+	</code></pre>
+            </section>
+
+            <section>
+                <h1>Bonus</h1>
+                <p>Las funciones <code>wait_for</code> son bloqueantes.</p>
+                <h2>Hacer lo mismo con funciones <code>when</code></h2>
+
+                <pre><code>
+from gpiozero import DistanceSensor, LED
+
+ultrasonic = DistanceSensor(echo=17, trigger=4)
+led = LED(20)
+
+def hola():
+    led.on()
+
+def adios():
+    led.off()
+
+ultrasonic.when_in_range = hola
+ultrasonic.when_out_of_range = adios
+	</code></pre>
+            </section>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>

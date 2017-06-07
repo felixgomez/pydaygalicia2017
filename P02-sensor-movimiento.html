@@ -30,84 +30,71 @@
 <div class="reveal">
 
     <div class="slides">
-        <section>
-            <h1>Práctica inicial:<br/><span style="color:red;">LED</span></h1>
+        <section class="background">
+            <h1>Práctica 02:<br/><span style="color:red;">SENSOR DE MOVIMIENTO PASIVO POR INFRAROJOS (PIR)</span></h1>
         </section>
 
         <section>
-            <h1>Circuito con LED</h1>
-            <img class="esquema" src="resources/P00/00-LED-BÁSICO_bb.png"/>
+            <h1>Componentes</h1>
+            <ul>
+                <li>PIR (Sensor de movimiento pasivo por infrarrojos)</li>
+                <li>LED (Diodo emisor de luz)</li>
+                <li>Resistencia 220&Omega;</li>
+            </ul>
         </section>
 
         <section>
-            <h1>Breadboard / Protoboard</h1>
-            <img class="esquema" src="resources/P00/01-PROTOBOARD.png"/>
+            <h1>PIR</h1>
+            <h2>Detecta <b>cambios</b> en la cantidad de rediación infrarroja que recibe.</h2>
+            <h2>Cuando el cambio supera un umbral dispara un pulso.</h2>
+            <img class="esquema" src="resources/P02/pir.png"/>
         </section>
 
         <section>
-            <h1>Circuito en la protoboard</h1>
-            <img class="esquema" src="resources/P00/02-LED-PROTOBOARD_bb.png"/>
-        </section>
-
-        <section>
-            <h1>Alimentando con la RPi</h1>
-            <img class="esquema" src="resources/P00/03-LED-PROTOBOARD-RPi_bb.png"/>
-        </section>
-
-        <section>
-            <h1>Añadimos un interruptor</h1>
-            <img class="esquema" src="resources/P00/04-LED-PROTOBOARD-RPi-SWITHC_bb.png"/>
-        </section>
-
-        <section id="d5">
-            <section>
-                <h1>Controlamos el LED con Python</h1>
-                <img class="esquema" src="resources/P00/05-LED-PROTOBOARD-RPi-PYTHON_bb.png"/>
-                <p class="etiquetasi">usando la entrada/salida GPIO número 17 de 3.3 V de la RaspberryPi</p>
-            </section>
-
-            <section>
-                <h1>código python</h1>
-                <pre><code class="python">
-from gpiozero import LED
-
-miled = LED(17) # crear un LED
-miled.on()      # encenderlo
-                </code></pre>
-            </section>
+            <h1>PIR (vista inferior)</h1>
+            <img src="resources/P02/pir-down.png"/>
         </section>
 
         <section>
             <section>
-                <h1>Leemos el pulsador desde Python</h1>
-                <img class="esquema" src="resources/P00/06-LED-PROTOBOARD-RPi-PYTHON-SWITCH_bb.png"/>
-                <p class="etiquetasi">usando la entrada/salida GPIO-02 de la RaspberryPi, y encendemos el LED</p>
+                <h1>Esquema</h1>
+                <img src="resources/P02/pir-breadboard.png" class="esquema">
             </section>
             <section>
-                <h1>código python</h1>
-                <pre><code class="python">
-from gpiozero import LED, Button
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import MotionSensor
 
-miled = LED(17)      # crear un LED
-miboton = Button(2)  # crear un pulsador
+pir = MotionSensor(24)
 
 while True:
-    if miboton.is_pressed:
-        miled.on()
-    else:
-        miled.off()
-                </code></pre>
+    pir.wait_for_motion()
+    print("You moved")
+    pir.wait_for_no_motion()
+	</code></pre>
             </section>
         </section>
 
         <section>
-            <h1>¿Qué hemos aprendido?</h1>
-            <ul>
-                <li>Electricidad básica</li>
-                <li>Prototipado</li>
-                <li>GPIO de la Raspberry-Pi</li>
-                <li>Python - gpiozero</li>
-            </ul>
+            <section>
+                <h1>Esquema con LED</h1>
+                <img src="resources/P02/pir-breadboard-led.png">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+from gpiozero import MotionSensor, LED
+
+pir = MotionSensor(24)
+led = LED(20)
+
+while True:
+    pir.wait_for_motion()
+    led.on()
+    pir.wait_for_no_motion()
+    led.off()
+	</code></pre>
+            </section>
         </section>
 
     </div>
