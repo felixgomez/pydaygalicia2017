@@ -60,6 +60,8 @@
                 <h1>Código Python</h1>
                 <h2>Medida de distancia</h2>
                 <pre><code>
+#!/usr/bin/env python3
+
 from gpiozero import DistanceSensor
 
 ultrasonic = DistanceSensor(echo=17, trigger=4)
@@ -73,6 +75,8 @@ while True:
                 <h1>Código Python</h1>
                 <h2>Detección de umbral (0.3m por defecto)</h2>
                 <pre><code>
+#!/usr/bin/env python3
+
 from gpiozero import DistanceSensor
 
 ultrasonic = DistanceSensor(echo=17, trigger=4)
@@ -120,6 +124,8 @@ ultrasonic.max_distance = 2
             <section>
                 <h1>Código Python</h1>
                 <pre><code>
+#!/usr/bin/env python3
+
 from gpiozero import DistanceSensor, LED
 
 ultrasonic = DistanceSensor(echo=17, trigger=4)
@@ -139,6 +145,8 @@ while True:
                 <h2>Hacer lo mismo con funciones <code>when</code></h2>
 
                 <pre><code>
+#!/usr/bin/env python3
+
 from gpiozero import DistanceSensor, LED
 
 ultrasonic = DistanceSensor(echo=17, trigger=4)
