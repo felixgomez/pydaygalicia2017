@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica 04:<br/><span style="color:red;">LED RGB</span></h1>
+        </section>
+
+        <section>
+            <h1>Componentes</h1>
+            <ul>
+                <li>LED RGB</li>
+                <li>1 resistencia 220&Omega;</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>LED RGB</h1>
+            <h2></h2>
+            <img class="esquema" src="resources/P04/rgb-smd.jpg"/>
+        </section>
+
+        <section>
+            <section>
+                <h1>Esquema</h1>
+                <img src="resources/P04/breadboard-rgb.png" class="esquema">
+            </section>
+            <section>
+                <h1>Código Python</h1>
+                <h2>Semáforo</h2>
+                <a href="http://gpiozero.readthedocs.io/en/stable/api_output.html#rgbled" target="_blank">gpiozero - RGBLED</a>
+                <pre><code>
+#!/usr/bin/env python3
+
+from gpiozero import RGBLED
+from time import sleep
+
+rgb = RGBLED(5, 6, 13)
+
+while True:
+    rgb.color = (1, 0, 0) # Tupla
+    sleep(0.5)
+    rgb.color = (0, 1, 0) # Tupla
+    sleep(0.5)
+    rgb.color = (0, 0, 1) # Tupla
+    sleep(0.5)
+	</code></pre>
+            </section>
+
+            <section>
+                <h1>Código Python</h1>
+                <h2>Recorriendo rangos</h2>
+                <pre><code>
+#!/usr/bin/env python3
+from gpiozero import RGBLED
+from time import sleep
+
+rgb = RGBLED(5, 6, 13)
+
+while True:
+	for i in [x * 0.05 for x in range(0, 10)]:
+		sleep(0.1)
+		rgb.color = (i,0,0)
+                </code></pre>
+            </section>
+
+            <section>
+                <h1>Código Python</h1>
+                <h2>Blink</h2>
+                <a href="http://gpiozero.readthedocs.io/en/stable/api_output.html#rgbled" target="_blank">Referencia gpiozero - RGBLED</a>
+                <pre><code>
+#!/usr/bin/env python3
+from gpiozero import RGBLED
+from time import sleep
+
+rgb = RGBLED(5, 6, 13)
+
+while True:
+    rgb.blink() # Explora los parámetros de esta función
+                </code></pre>
+            </section>
+
+
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
