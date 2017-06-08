@@ -31,7 +31,7 @@
 
 	<div class="slides">
 		<section class="background">
-			<h1>Práctica con <span style="color:blue;">Servo</span></h1>
+			<h1>Práctica con<br /><span style="color:blue;">Servo</span></h1>
 		</section>
 
 		<section class="background">
@@ -52,6 +52,8 @@ miservo = Servo(17)
 while True:
 	miservo.min() # ó miservo.value = -1
 	sleep(1)
+	miservo.mid() # ó miservo.value = 0
+	sleep(1)
 	miservo.max() # ó miservo.value = +1
 	sleep(1)
 				</code></pre>
@@ -62,6 +64,7 @@ while True:
 			<section>
 				<h1>Cómo se posiciona un Servo</h1>
 				<img class="esquema" src="resources/PServo/01-Servo-PWM-normal.png" />
+				<p>Configuración estándar de un Servo en <i>RPi gpiozero</i></p>
 			</section>
 			<section>
 				<h1>El Servo G90: 500-2400 µs</h1>
@@ -95,9 +98,8 @@ while True:
 		<section class="background">
 			<h1>¿Qué hemos aprendido?</h1>
 			<ul>
-				<li>Electricidad básica</li>
-				<li>Prototipado</li>
-				<li>GPIO de la Raspberry-Pi</li>
+				<li>Servos</li>
+				<li>Señales de control</li>
 				<li>Python - gpiozero</li>
 			</ul>
 		</section>

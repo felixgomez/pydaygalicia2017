@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/github.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img style="width: 50%" src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section data-background="resources/Cherry-Blossom-Festival-website.png"
+                 class="background">
+            <h1>Taller de Python con Raspberry PI</h1>
+            <h3>CON</h3>
+            <p><small><a href="https://twitter.com/mgesteiro">@mgesteiro</a> / <a href="https://twitter.com/felixgomezlopez">@felixgomezlopez</a></small></p>
+        </section>
+
+        <section>
+            <section data-background="resources/pi_angled.jpg" class="background">
+                <h1>Empezando</h1>
+            </section>
+
+            <section>
+                <img src="resources/modelos.png" alt="Modelos">
+            </section>
+
+            <section>
+                <h1>Diferenciase entre la 2 y la 3</h1>
+            </section>
+
+        </section>
+
+        <section>
+            <img src="resources/rbp_parts.jpg" alt="">
+        </section>
+
+        <section>
+            <img src="resources/plug-in.gif" alt="">
+        </section>
+
+        <section>
+            <h1>Sistemas operativos</h1>
+            <pre class="python"><code data-trim>
+from gpiozero import LED
+
+led = LED(17)
+led.on()
+            </code></pre>
+        </section>
+
+        <section>
+            <h1>Usos típicos</h1>
+        </section>
+
+        <section>
+            <h1>Hands on</h1>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
