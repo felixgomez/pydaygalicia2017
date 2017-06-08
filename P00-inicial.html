@@ -25,83 +25,100 @@
 <body>
 
 <div class="logo-footer">
-	<img src="resources/logo-pygalicia.png">
+	<a href="index.html#02"><img src="resources/logo-pygalicia.png"></a>
 </div>
 <div class="reveal">
 
 	<div class="slides">
-		<section class="background">
-			<h1>Práctica con<br /><span style="color:blue;">Servo</span></h1>
+		<section>
+			<h1>Práctica inicial:<br/><span style="color:red;">LED</span></h1>
 		</section>
 
-		<section class="background">
+		<section>
+			<h1>Circuito con LED</h1>
+			<img class="esquema" src="resources/P00/00-LED-BÁSICO_bb.png"/>
+		</section>
+
+		<section>
+			<h1>Breadboard / Protoboard</h1>
+			<img class="esquema" src="resources/P00/01-PROTOBOARD.png"/>
+		</section>
+
+		<section>
+			<h1>Circuito en la protoboard</h1>
+			<img class="esquema" src="resources/P00/02-LED-PROTOBOARD_bb.png"/>
+		</section>
+
+		<section>
+			<h1>Alimentando con la RPi</h1>
+			<img class="esquema" src="resources/P00/03-LED-PROTOBOARD-RPi_bb.png"/>
+		</section>
+
+		<section>
+			<h1>Añadimos un interruptor</h1>
+			<img class="esquema" src="resources/P00/04-LED-PROTOBOARD-RPi-SWITHC_bb.png"/>
+		</section>
+
+		<section id="d5">
 			<section>
-				<h1>Circuito con Servo</h1>
-				<img class="esquema" src="resources/PServo/00-Servo-RPi_bb.png" />
+				<h1>Controlamos el LED con Python</h1>
+				<img class="esquema" src="resources/P00/05-LED-PROTOBOARD-RPi-PYTHON_bb.png"/>
+				<p class="etiquetasi">usando la entrada/salida GPIO número 17 de 3.3 V de la RaspberryPi</p>
 			</section>
+
 			<section>
 				<h1>código python</h1>
 				<pre><code class="python">
 #!/usr/bin/env python3
 
-from gpiozero import Servo
-from time import sleep
+from gpiozero import LED
 
-miservo = Servo(17)
+miled = LED(17) # crear un LED
+miled.on()      # encenderlo
 
-while True:
-	miservo.min() # ó miservo.value = -1
-	sleep(1)
-	miservo.mid() # ó miservo.value = 0
-	sleep(1)
-	miservo.max() # ó miservo.value = +1
-	sleep(1)
+
+input("Pulsa una tecla para terminar ...")
 				</code></pre>
 			</section>
 		</section>
 
 		<section>
 			<section>
-				<h1>Cómo se posiciona un Servo</h1>
-				<img class="esquema" src="resources/PServo/01-Servo-PWM-normal.png" />
-				<p>Configuración estándar de un Servo en <i>RPi gpiozero</i></p>
-			</section>
-			<section>
-				<h1>El Servo G90: 500-2400 µs</h1>
-				<img class="esquema" src="resources/PServo/01-Servo-PWM-G90.png" /><br />
-				<a href="https://servodatabase.com/servo/towerpro/sg90" target="_blank">&rArr; Especificaciones G90</a>
+				<h1>Leemos el pulsador desde Python</h1>
+				<img class="esquema" src="resources/P00/06-LED-PROTOBOARD-RPi-PYTHON-SWITCH_bb.png"/>
+				<p class="etiquetasi">usando la entrada/salida GPIO-02 de la RaspberryPi, y encendemos el LED</p>
 			</section>
 			<section>
 				<h1>código python</h1>
 				<pre><code class="python">
 #!/usr/bin/env python3
 
-from gpiozero import Servo
-from time import sleep
+from gpiozero import LED, Button
 
-miservo = Servo(17,
-	min_pulse_width =   500/1000000, # =   500 µs =  0.5 ms
-	max_pulse_width =  2400/1000000, # =  2400 µs =  2.4 ms
-	frame_width     = 20000/1000000  # = 20000 µs = 20.0 ms
-)
+miled = LED(17)      # crear un LED
+miboton = Button(2)  # crear un pulsador
 
 while True:
-	miservo.value = -1 # ó miservo.min()
-	sleep(1)
-	miservo.value = +1 # ó miservo.max()
-	sleep(1)
+	if miboton.is_pressed:
+		miled.on()
+	else:
+		miled.off()
 				</code></pre>
 			</section>
 		</section>
 
-
-		<section class="background">
+		<section>
 			<h1>¿Qué hemos aprendido?</h1>
 			<ul>
-				<li>Servos</li>
-				<li>Señales de control</li>
+				<li>Electricidad básica</li>
+				<li>Prototipado</li>
+				<li>GPIO de la Raspberry-Pi</li>
 				<li>Python - gpiozero</li>
 			</ul>
+			<p>
+				<br />
+				<a href="index.html#02">&rArr; Volver al &iacute;ndice</a>
+			</p>
 		</section>
 
 	</div>
