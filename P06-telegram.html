@@ -25,13 +25,13 @@
 <body>
 
 <div class="logo-footer">
-    <img src="resources/logo-pygalicia.png">
+    <a href="index.html#02"><img src="resources/logo-pygalicia.png"></a>
 </div>
 <div class="reveal">
 
     <div class="slides">
         <section class="background">
-            <h1>Práctica 05:<br/><span style="color:#3776AB;">RELÉ Y BOT TELEGRAM</span></h1>
+            <h1>Práctica 05:<br/><span style="color:#3776AB;">Relé y Bot de Telegram</span></h1>
         </section>
 
         <section>
@@ -152,7 +152,7 @@ updater = Updater(token='xxxxxxxxxxxxxxx')
 
 def start(bot, update):
     """Mensaje de bienvenida"""
-                    
+
     bot.send_message(chat_id=update.message.chat_id,
                      text="Soy el bot del PyDay Galicia 2017, háblame!")
 
