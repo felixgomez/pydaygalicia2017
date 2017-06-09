@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Controlando el mundo f&iacute;sico con Python y RaspberryPi - Taller PyDay Galicia, 10 junio 2017</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/override.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/railscasts.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+
+<div class="logo-footer">
+    <img src="resources/logo-pygalicia.png">
+</div>
+<div class="reveal">
+
+    <div class="slides">
+        <section class="background">
+            <h1>Práctica 05:<br/><span style="color:blue;">RELÉ Y BOT TELEGRAM</span></h1>
+        </section>
+
+        <section>
+            <h1>Componentes</h1>
+            <ul>
+                <li>1 Relé</li>
+                <li>1 LED</li>
+                <li>1 Resistencia de 220&Omega;</li>
+                <li>Portapilas para dos pilas AA de 1.5V</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>RELÉ</h1>
+            <h2>Dispositivo electromagnético que, estimulado por una corriente eléctrica muy débil, abre o cierra un
+                circuito</h2>
+            <img class="esquema" src="resources/P05/rele.jpg"/>
+        </section>
+
+        <section>
+            <h1>LED en circuito abierto</h1>
+            <h2>NO (Normal open) / NC (Normal close) / C (Common)</h2>
+            <img class="esquema" src="resources/P05/breadboard-led-abierto.png"/>
+        </section>
+
+        <section>
+            <section>
+                <h1>Acción de RELÉ con GPIO</h1>
+                <img class="esquema" src="resources/P05/breadboard-rele-led-gpio.png"/>
+            </section>
+
+            <section>
+                <h1>Código Python</h1>
+                <pre><code>
+#!/usr/bin/env python3
+
+from gpiozero import OutputDevice
+from time import sleep
+
+rele = OutputDevice(24) # Ver documentación de Relé para LOW o HIGH
+
+while True:
+    rele.on()
+    sleep(1)
+    rele.off()
+    sleep(1)
+	</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h1>Bots de Telegram</h1>
+            <h2>Son programas que podemos correr en un servidor y que permiten interactuar con Telegram</h2>
+
+            <img src="resources/P05/telegram.png" class="esquema">
+        </section>
+
+        <section>
+            <h1>Botfather</h1>
+            <h2>Bot de Telegram que permite crear Bots</h2>
+
+            <img src="resources/P05/botfather.png" class="esquema">
+        </section>
+
+        <section>
+            <h1>Comandos básicos</h1>
+            <ul>
+                <li>/start</li>
+                <li>/newbot</li>
+                <li>/mybots</li>
+                <li>/setcommands</li>
+            </ul>
+            <p>Una vez creado el bot tendremos acceso al <b>API TOKEN</b></p>
+        </section>
+
+
+        <section>
+            <h1><a href="https://github.com/python-telegram-bot/python-telegram-bot"
+                   target="_blank">python-telegram-bot</a></h1>
+            <h2>Para facilitar la interacción desde Python con bots de Telegram</h2>
+            <div class="fragment">
+            <pre><code>
+sudo apt-get install virtualenv ipython
+	</code></pre>
+            </div>
+            <div class="fragment">
+            <pre><code>
+virtualenv NOMBRE_PROYECTO
+	</code></pre>
+            </div>
+            <div class="fragment">
+            <pre><code>
+source NOMBRE_PROYECTO/bin/activate
+	</code></pre>
+            </div>
+            <div class="fragment">
+            <pre><code>
+(NOMBRE_PROYECTO)$ pip --version
+	</code></pre>
+            </div>
+            <div class="fragment">
+            <pre><code>
+(NOMBRE_PROYECTO)$ pip install gpiozero python-telegram-bot
+	</code></pre>
+            </div>
+        </section>
+
+        <section>
+            <section>
+                <h1>Código básico</h1>
+                <pre><code>
+#!/usr/bin/env python3
+
+from telegram.ext import Updater, CommandHandler
+
+updater = Updater(token='398916286:JAFJBhs7065p38OZ4Lr_xwjyP3OzBVIv8AA')
+
+
+def start(bot, update):
+    bot.send_message(chat_id=update.message.chat_id,
+                     text="Soy el bot del PyDay Galicia 2017, háblame!")
+
+
+start_handler = CommandHandler('start', start)
+
+dispatcher = updater.dispatcher
+dispatcher.add_handler(start_handler)
+
+updater.start_polling()
+            </code></pre>
+            </section>
+            <section>
+                <pre><code>
+#!/usr/bin/env python3
+
+from telegram.ext import Updater, CommandHandler
+from gpiozero import OutputDevice
+
+updater = Updater(token='xxxxxxxxxxxxxxx')  # Token de Telegram
+rele = OutputDevice(24, False)
+
+usuarios_permitidos = ['felixgomez']
+
+
+def start(bot, update):
+    """Comando start: Envía texto de bienvenida"""
+
+    bot.send_message(chat_id=update.message.chat_id,
+                     text="Soy el bot del PyDay Galicia 2017, háblame!")
+
+
+def pompas(bot, update, args):
+    """Función de activación del relé"""
+
+    if (update.message.from_user.username in usuarios_permitidos):
+        if "on" in args:
+            rele.on()
+            message = "Que empiece la fiesta! " + u'\U0001F389'
+        elif "off" in args:
+            rele.off()
+            message = "A casa todo el mundo... " + u'\U0001F614'
+        else:
+            estado_rele = "ON" if rele.value else "OFF"
+            message = "La fiesta está {} !".format(estado_rele)
+    else:
+        message = "Acceso no permitido"
+
+    bot.send_message(chat_id=update.message.chat_id, text=message)
+
+
+start_handler = CommandHandler('start', start)
+pompas_handler = CommandHandler('pompas', pompas, pass_args=True)
+
+dispatcher = updater.dispatcher
+dispatcher.add_handler(start_handler)
+dispatcher.add_handler(pompas_handler)
+
+updater.start_polling()
+                </code></pre>
+            </section>
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        progress: true,
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
