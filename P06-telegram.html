@@ -147,10 +147,12 @@ source NOMBRE_PROYECTO/bin/activate
 
 from telegram.ext import Updater, CommandHandler
 
-updater = Updater(token='398916286:JAFJBhs7065p38OZ4Lr_xwjyP3OzBVIv8AA')
+updater = Updater(token='xxxxxxxxxxxxxxx')
 
 
 def start(bot, update):
+    """Mensaje de bienvenida"""
+                    
     bot.send_message(chat_id=update.message.chat_id,
                      text="Soy el bot del PyDay Galicia 2017, háblame!")
 
